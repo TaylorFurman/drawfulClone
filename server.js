@@ -1,13 +1,16 @@
-const http = require("http");
-const hostname = "127.0.0.1"
-const port = 8000;
+const express = require('express');
+const app = express();
+const http = require('http');
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
 
-const server = http.createServer((req, res) =>{
-    res.statusCode = 200;
-    res.setHeader("Content-Type", "text/plain");
-    res.end("Hello World");
+app.get('/', (req, res) =>{
+    res.sendFile(__dirname + '/index.html');
 });
 
-server.listen(port, hostname, () =>{
-    console.log(`Server running at http://${hostname}:${port}/`);
+server.listen(3000, ()=>{
+    console.log('listening on *:3000');
 });
+
+app.use(express.static('public'));
